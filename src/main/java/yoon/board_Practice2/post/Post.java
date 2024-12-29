@@ -41,4 +41,7 @@ public class Post {
         return title;
     }
 
+    public String getContent() {
+        return content;
+    }
 }
