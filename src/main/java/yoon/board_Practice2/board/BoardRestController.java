@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import yoon.board_Practice2.board.DTO.BoardResponse;
 import yoon.board_Practice2.board.DTO.CreateBoard;
+import yoon.board_Practice2.board.DTO.UpdateBoard;
 
 import java.util.List;
 
@@ -24,6 +25,11 @@ public class BoardRestController {
     @GetMapping("/boards")
     public List<BoardResponse> allRead(@Valid @RequestBody BoardResponse board) {
         return boardService.allRead();
+    }
+
+    @PutMapping("/boards/{id}")
+    public void update(@PathVariable Long id, @Valid @RequestBody UpdateBoard board) {
+        boardService.update(id, board);
     }
 
     @DeleteMapping("/boards/{id}")
