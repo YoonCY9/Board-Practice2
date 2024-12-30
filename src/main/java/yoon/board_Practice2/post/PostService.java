@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import yoon.board_Practice2.board.Board;
 import yoon.board_Practice2.board.BoardRepository;
 import yoon.board_Practice2.post.DTO.CreatePost;
+import yoon.board_Practice2.post.DTO.PostNameUpdate;
 import yoon.board_Practice2.post.DTO.PostResponse;
 
 import java.util.*;
@@ -30,6 +31,25 @@ public class PostService {
         List<Post> posts = postRepository.findAll();
         return posts.stream().map(p -> new PostResponse
                 (p.getName(), p.getTitle(), p.getContent())).toList();
+    }
+
+    public void update(Long id, PostNameUpdate dto) {
+        // 포스트 내용 수정 json값에 들어온것만 바꿈
+        Post post = postRepository.findById(id).orElseThrow();
+        if (dto.name() != null) {
+            post.setName(dto.name());
+        }
+        if (dto.title() != null) {
+            post.setTitle(dto.title());
+        }
+        if (dto.content() != null) {
+            post.setContent(dto.content());
+        }
+        postRepository.save(post);
+    }
+
+    public void delete(Long id) {
+        postRepository.deleteById(id);
     }
 
 }
