@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import yoon.board_Practice2.board.Board;
 import yoon.board_Practice2.board.BoardRepository;
 import yoon.board_Practice2.post.DTO.CreatePost;
-import yoon.board_Practice2.post.DTO.PostNameUpdate;
+import yoon.board_Practice2.post.DTO.PostUpdate;
 import yoon.board_Practice2.post.DTO.PostResponse;
 
 import java.util.*;
@@ -30,10 +30,18 @@ public class PostService {
         // 보드아이디에 상관없이 모든 포스트 조회
         List<Post> posts = postRepository.findAll();
         return posts.stream().map(p -> new PostResponse
-                (p.getName(), p.getTitle(), p.getContent())).toList();
+                (p.getName(), p.getTitle(), p.getContent(), p.getViewCount())).toList();
     }
 
-    public void update(Long id, PostNameUpdate dto) {
+    public PostResponse findOne(Long id) {
+        // 포스트아이디로 해당 포스트만 조회 and 조회수 증가
+        Post post = postRepository.findById(id).orElseThrow();
+        post.viewCountIncrease(post.getViewCount());
+        postRepository.save(post);
+        return new PostResponse(post.getName(), post.getTitle(), post.getContent(), post.getViewCount());
+    }
+
+    public void update(Long id, PostUpdate dto) {
         // 포스트 내용 수정 json값에 들어온것만 바꿈
         Post post = postRepository.findById(id).orElseThrow();
         if (dto.name() != null) {

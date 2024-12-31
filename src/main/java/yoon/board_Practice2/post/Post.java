@@ -16,6 +16,8 @@ public class Post {
 
     private String content;
 
+    private int viewCount = 0;
+
     @ManyToOne
     private Board board;
 
@@ -45,6 +47,9 @@ public class Post {
         return content;
     }
 
+    public int getViewCount() {
+        return viewCount;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -56,5 +61,9 @@ public class Post {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public void viewCountIncrease(int viewCount) {
+        this.viewCount++;
     }
 }
